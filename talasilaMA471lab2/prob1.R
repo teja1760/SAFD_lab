@@ -1,0 +1,87 @@
+library(fBasics)
+A <- read.table("d-csp0108.txt", header=TRUE)
+n = nrow(A)
+
+K_C = kurtosis(A[,2])[1]
+K_SP = kurtosis(A[,3])[1]
+cat(paste("Kurtosis of C = ",K_C,"\n"))
+cat(paste("Kurtosis of SP = ",K_SP,"\n"))
+
+shape = 2
+scale = 1
+maxs = c()
+sample_sizes = c(20,40,100,200)
+for(i in 1:4)
+{
+  maxs = c(maxs,max(rweibull(sample_sizes[i],shape,scale)))
+}
+cat("Maximums = ")
+cat(maxs)
+
+L <- function(beta, theta, X)
+{
+  n = length(X)
+  d1 = sum(log(X))
+  d3 = X^beta
+  d3 = vector(,n)
+  for(i in 1:n)
+    d3[i] = X[i]^beta
+  d3 = sum(d3)
+  return(n*log(beta) + n*beta*log(theta) + (beta-1)*d1 - (theta^beta)*d3 )
+}
+
+L_beta <- function(beta,X)
+{
+  n = length(X)
+  d1 = log(X)
+  d3 = X^beta
+  d2 = sum(d1*d3)
+  d1 = sum(d1)
+  d3 = sum(d3)
+  return((n/beta) - (n*d2/d3) + d1)
+}
+
+L_beta_prime <- function(beta,X)
+{
+  n = length(X)
+  d1 = log(X)
+  d3 = X^beta
+  d2 = d1*d3
+  d4 = (d1*d1)%*%d3 # scalar
+  d2 = sum(d2)
+  d3 = sum(d3)
+  return( -(n/(beta^2)) -n*( (d2^2 - d3*d4)/(d3^2) ) )
+}
+
+newton_raphson <- function(f,f_prime,X,tol=1e-5,x0=1,N=100)
+{
+  i=1; x1=x0
+  p = numeric(N)
+  while (i<=N)
+  {
+    df.dx = (f(x0+tol,X)-f(x0,X))/tol#f_prime(x0,X)
+    x1 = x0 - (f(x0,X)/df.dx)
+    p[i] = x1
+    i=i+1
+    if(abs(x1-x0)<tol)
+      break
+    x0=x1
+  }
+  return(x0)
+}
+
+est_param <- function(X)
+{
+  # beta0 = uniroot(function(x) L_beta(x,X),lower = 1, upper = 5, tol = 1e-5)$root
+  beta0 = newton_raphson(L_beta,L_beta_prime,X)
+  d3 = sum(X^beta0)
+  theta0 = (length(X)/d3)^(1/beta0)
+  return(c(beta0,theta0))
+}
+cat("\nEstimates of beta and theta\n")
+for(i in 1:4)
+{
+  est = est_param(rweibull(sample_sizes[i],shape,scale))
+  cat(est[1]," ",est[2],"\n")
+}
+

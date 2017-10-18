@@ -1,0 +1,87 @@
+A = read.table("d-csp0108.txt",header = T)
+A
+A[,c(2,3)] = log(1+A[,c(2,3)])
+A
+as.double(A)
+as.data.frame(A)
+A = as.data.frame(A)
+A[,2]
+colMeans(A[,c(2,3)])
+colMeans(A[,c(2,3)])
+cat("The mean returns are :\n")
+colMeans(A[,c(2,3)])
+sd(A[,c(2,3)])
+sd(A[,2])
+m = mean(A[,c(2,3)])
+m
+m = colMeans(A[,c(2,3)])
+m
+m[1]
+?sd
+s = c(sd(A[,2]),sd(A[,3]))
+s
+n = length(A[,2])
+L = m-1.96*s/sqrt(n)
+L
+U = m+1.96*s/sqrt(n)
+L
+U
+U-L
+sd(A[,3])
+sd(A[,2])
+U-L
+L
+U
+A = read.table("d-csp0108.txt",header = T)
+A = as.data.frame(A)
+cat("The mean returns are :\n")
+colMeans(A[,c(2,3)])
+m = colMeans(A[,c(2,3)])
+s = c(sd(A[,2]),sd(A[,3]))
+n = length(A[,2])
+L = m-1.96*s/sqrt(n)
+U = m+1.96*s/sqrt(n)
+L
+U
+m
+s
+L
+dim(A)
+Z = rnorm(1000,mu[1],s[1])
+Z = rnorm(1000,m[1],s[1])
+mu = mean(Z)
+sigma = sd(Z)
+L = mu-1.96*sigma/sqrt(length(Z))
+U = mu+1.96*sigma/sqrt(length(Z))
+L
+U
+Z = rnorm(c(1000,1000),m[1],s[1])
+mu = colMeans(Z)
+Z = rnorm(c(1000,1000),m[1],s[1])
+mu = colMeans(Z)
+Z = as.matrix(rnorm(c(1000,1000),m[1],s[1]))
+mu = colMeans(Z)
+Z = as.matrix(rnorm(c(1000,1000),m[1],s[1]))
+mu = colMeans(Z)
+n = length(A[,2])
+sigma = vector(,n)
+for(i in 1:dim(Z)[1])
+sigma[i] = sd(Z[i])
+mu
+Z
+count = 0
+for(i in 1:1000)
+{
+Z = rnorm(1000,m[1],s[1])
+mu = mean(Z)
+sigma = sd(Z)
+L = mu-1.96*sigma/sqrt(length(Z))
+U = mu+1.96*sigma/sqrt(length(Z))
+if(L < m[1] && m[1] < U)
+count = count + 1
+}
+cat(count)
+source('/media/charan/148A6FF98A6FD5B0/Users/Charan Kesav/Downloads/SAFD lab/r.somaniMA471lab1/prob1.R')
+source('/media/charan/148A6FF98A6FD5B0/Users/Charan Kesav/Downloads/SAFD lab/prob1.R')
+source('/media/charan/148A6FF98A6FD5B0/Users/Charan Kesav/Downloads/SAFD lab/prob1.R')
+source('/media/charan/148A6FF98A6FD5B0/Users/Charan Kesav/Downloads/SAFD lab/r.somaniMA471lab1/prob1.R')
